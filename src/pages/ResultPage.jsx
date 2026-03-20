@@ -119,61 +119,60 @@ const ResultPage = () => {
   const activeConfig = config[riskLevel];
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center py-12 px-4 space-y-12 max-w-6xl mx-auto bg-white">
+    <div className="min-h-screen w-full flex flex-col items-center py-12 px-4 space-y-12 max-w-76 mx-auto bg-transparent">
       
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         
         {/* Main Result Card */}
-        <FormCard title="Diagnostic Report">
-          <div className="flex flex-col items-center justify-center space-y-8">
-            <div className={`p-8 rounded-full ${activeConfig.bg} ${activeConfig.border} border-2 shadow-inner animate-[spin-fade_1s_ease-out]`}>
+        <div className="bg-black/40 backdrop-blur-2xl rounded-[3rem] border border-white/10 p-8 md:p-12 shadow-2xl relative overflow-hidden animate-[slide-up-fade_1s_ease-out]">
+          <div className="flex flex-col items-center justify-center space-y-10">
+            <div className={`p-10 rounded-full ${activeConfig.bg} border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.1)] animate-[spin-fade_1s_ease-out]`}>
               {activeConfig.icon}
             </div>
 
-            <div className="text-center space-y-3">
-              <h3 className="text-sm font-black uppercase tracking-[0.3em] text-gray-400">Biological Risk Score</h3>
-              <p className={`text-6xl font-black ${activeConfig.color} tracking-tighter`}>
+            <div className="text-center space-y-4">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-emerald-500/50">Biological Risk Profile</h3>
+              <p className={`text-8xl font-black ${activeConfig.color} tracking-tighter`}>
                 {riskLevel}
               </p>
-              <div className="flex items-center justify-center gap-2 text-xs font-bold text-gray-400">
-                <Activity className="w-3 h-3" />
-                BMI: <span className="text-gray-900">{bmi}</span>
+              <div className="flex items-center justify-center gap-3 text-xs font-black text-white/30 tracking-widest uppercase">
+                <Activity className="w-4 h-4 text-emerald-500" />
+                Index: <span className="text-white">{bmi} BMI</span>
               </div>
             </div>
 
-            <div className="w-full mt-8 p-8 bg-gray-50/50 rounded-[3rem] border border-gray-100/50">
-              <h4 className="font-extrabold text-gray-900 mb-6 flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                AI Recommendations
+            <div className="w-full mt-10 p-10 bg-white/5 rounded-[3rem] border border-white/5">
+              <h4 className="text-xs font-black text-emerald-400 mb-8 uppercase tracking-[0.3em] flex items-center gap-3">
+                <ShieldCheck className="w-4 h-4" /> Proactive Guidance
               </h4>
-              <ul className="space-y-5">
+              <ul className="space-y-6">
                 {suggestions.map((suggestion, index) => (
-                  <li key={index} className="flex items-start gap-4 text-sm leading-relaxed text-gray-600 font-medium pb-4 border-b border-gray-200/40 last:border-0 last:pb-0">
-                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                  <li key={index} className="flex items-start gap-5 text-sm leading-relaxed text-emerald-50/70 font-medium pb-6 border-b border-white/5 last:border-0 last:pb-0">
+                    <div className="mt-2 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 shadow-[0_0_12px_rgba(16,185,129,0.8)]"></div>
                     {suggestion}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-6">
               <Link 
                 to="/form"
-                className="flex items-center justify-center gap-2 bg-gray-50 hover:bg-gray-100 text-gray-700 font-bold py-5 rounded-2xl transition-all border border-gray-100"
+                className="flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white font-black py-6 rounded-2xl transition-all border border-white/5 uppercase tracking-widest text-xs"
               >
-                <ArrowLeft className="w-5 h-5" />
-                Re-assess
+                <ArrowLeft className="w-4 h-4" />
+                Recalibrate
               </Link>
               <button 
                 onClick={scrollToBooking}
-                className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-5 rounded-[2rem] transition-all shadow-xl shadow-emerald-500/20 active:scale-95"
+                className="flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black py-6 rounded-[2rem] transition-all shadow-2xl shadow-emerald-500/40 text-xs uppercase tracking-widest active:scale-[0.98]"
               >
-                <Calendar className="w-5 h-5" />
-                Book Now
+                <Calendar className="w-4 h-4" />
+                Book Specialist
               </button>
             </div>
           </div>
-        </FormCard>
+        </div>
 
         {/* AI Insight Section */}
         <AIHealthCoach riskLevel={riskLevel} userData={location.state} />
@@ -182,7 +181,7 @@ const ResultPage = () => {
 
       {/* Doctor Booking Section */}
       {showBooking && (
-        <div ref={bookingRef} className="w-full bg-white rounded-[3rem] p-8 md:p-12 shadow-[0_48px_80px_-16px_rgba(0,0,0,0.08)] border border-gray-100/50 animate-[slide-up-fade_1s_ease-out]">
+        <div ref={bookingRef} className="w-full bg-black/40 backdrop-blur-3xl rounded-[4rem] p-10 md:p-16 shadow-2xl border border-white/10 animate-[slide-up-fade_1s_ease-out]">
           <DoctorBooking 
             recommendedType={activeConfig.docType} 
             isHighRisk={riskLevel === 'High'} 

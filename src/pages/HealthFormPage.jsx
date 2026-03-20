@@ -43,83 +43,73 @@ const HealthFormPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center px-4 py-12 bg-white">
-      <FormCard 
-        title="Comprehensive Health Assessment" 
-        description="Provide detailed metrics for a clinical-grade AI risk analysis."
-      >
-        <form onSubmit={handleSubmit} className="space-y-10">
+    <div className="min-h-screen w-full flex items-center justify-center px-4 py-12 bg-transparent text-white">
+      <div className="w-full max-w-2xl bg-black/40 backdrop-blur-2xl rounded-[3rem] border border-white/10 p-8 md:p-12 shadow-2xl relative overflow-hidden animate-[slide-up-fade_0.8s_ease-out]">
+        
+        {/* Subtle glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div className="mb-10 text-center space-y-3">
+          <h2 className="text-4xl font-black tracking-tighter text-white">System Diagnostics</h2>
+          <p className="text-emerald-50/50 font-medium">Provide clinical metrics for AI biological risk synthesis.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-12">
           
           {/* Section 1: Personal Biometrics */}
           <div className="space-y-6">
-            <h3 className="text-sm font-black uppercase tracking-widest text-emerald-600 flex items-center gap-2">
-              <User className="w-4 h-4" /> Personal Biometrics
+            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500/60 flex items-center gap-3">
+              <User className="w-3.5 h-3.5" /> 01. Personal Biometrics
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1">Age</label>
-                <input type="number" name="age" required value={formData.age} onChange={handleChange} placeholder="e.g. 25" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none" />
+                <label className="text-[11px] font-bold text-emerald-50/40 ml-1 uppercase tracking-widest">Age</label>
+                <input type="number" name="age" required value={formData.age} onChange={handleChange} placeholder="e.g. 25" className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all outline-none font-bold" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1">Gender</label>
-                <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none appearance-none">
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
+                <label className="text-[11px] font-bold text-emerald-50/40 ml-1 uppercase tracking-widest">Gender</label>
+                <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all outline-none appearance-none font-bold">
+                  <option className="bg-emerald-950">Male</option>
+                  <option className="bg-emerald-950">Female</option>
+                  <option className="bg-emerald-950">Other</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1 flex items-center gap-1"><Ruler className="w-3 h-3"/> Height (cm)</label>
-                <input type="number" name="height" required value={formData.height} onChange={handleChange} placeholder="e.g. 175" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none" />
+                <label className="text-[11px] font-bold text-emerald-50/40 ml-1 uppercase tracking-widest">Height (cm)</label>
+                <input type="number" name="height" required value={formData.height} onChange={handleChange} placeholder="e.g. 175" className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all outline-none font-bold" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1 flex items-center gap-1"><Scale className="w-3 h-3"/> Weight (kg)</label>
-                <input type="number" name="weight" required value={formData.weight} onChange={handleChange} placeholder="e.g. 70" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none" />
+                <label className="text-[11px] font-bold text-emerald-50/40 ml-1 uppercase tracking-widest">Weight (kg)</label>
+                <input type="number" name="weight" required value={formData.weight} onChange={handleChange} placeholder="e.g. 70" className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all outline-none font-bold" />
               </div>
             </div>
           </div>
 
           {/* Section 2: Lifestyle Markers */}
           <div className="space-y-6">
-            <h3 className="text-sm font-black uppercase tracking-widest text-emerald-600 flex items-center gap-2">
-              <Activity className="w-4 h-4" /> Lifestyle Habits
+            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500/60 flex items-center gap-3">
+              <Activity className="w-3.5 h-3.5" /> 02. Lifestyle Habits
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1 tracking-wide">Daily Sleep (Hrs)</label>
-                <input type="number" name="sleep" required value={formData.sleep} onChange={handleChange} placeholder="e.g. 7" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 outline-none focus:border-emerald-500 transition-all" />
+                <label className="text-[11px] font-bold text-emerald-50/40 ml-1 uppercase tracking-widest">Daily Sleep</label>
+                <input type="number" name="sleep" required value={formData.sleep} onChange={handleChange} placeholder="e.g. 7" className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/20 transition-all outline-none font-bold" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1">Activity Level</label>
-                <select name="activity" value={formData.activity} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 outline-none focus:border-emerald-500 appearance-none">
-                  <option value="Low">Low (Sedentary)</option>
-                  <option value="Medium">Medium (Moderate)</option>
-                  <option value="High">High (Very Active)</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1 flex items-center gap-1"><Zap className="w-3 h-3"/> Stress Level</label>
-                <select name="stress" value={formData.stress} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 outline-none focus:border-emerald-500 appearance-none">
-                  <option>Low</option>
-                  <option>Moderate</option>
-                  <option>High</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1 flex items-center gap-1"><Coffee className="w-3 h-3"/> Alcohol</label>
-                <select name="alcohol" value={formData.alcohol} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 outline-none focus:border-emerald-500 appearance-none">
-                  <option>None</option>
-                  <option>Occasional</option>
-                  <option>Regular</option>
+                <label className="text-[11px] font-bold text-emerald-50/40 ml-1 uppercase tracking-widest">Activity</label>
+                <select name="activity" value={formData.activity} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white transition-all outline-none appearance-none font-bold">
+                  <option value="Low" className="bg-emerald-950">Low (Sedentary)</option>
+                  <option value="Medium" className="bg-emerald-950">Medium (Moderate)</option>
+                  <option value="High" className="bg-emerald-950">High (Active)</option>
                 </select>
               </div>
             </div>
             
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-gray-500 ml-1">Do you smoke?</label>
+            <div className="space-y-4">
+              <label className="text-[11px] font-bold text-emerald-50/40 ml-1 uppercase tracking-widest">Do you smoke?</label>
               <div className="flex gap-4">
                 {['No', 'Yes'].map(opt => (
-                  <button key={opt} type="button" onClick={() => setFormData(p => ({...p, smoking: opt}))} className={`flex-1 py-3 rounded-xl font-bold transition-all border ${formData.smoking === opt ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-500/20' : 'bg-white border-gray-100 text-gray-400 hover:bg-gray-50'}`}>
+                  <button key={opt} type="button" onClick={() => setFormData(p => ({...p, smoking: opt}))} className={`flex-1 py-4 rounded-2xl font-black transition-all border ${formData.smoking === opt ? 'bg-emerald-600 border-emerald-500 text-white shadow-[0_0_30px_rgba(16,185,129,0.2)]' : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10'}`}>
                     {opt}
                   </button>
                 ))}
@@ -129,19 +119,19 @@ const HealthFormPage = () => {
 
           {/* Section 3: Medical History */}
           <div className="space-y-6">
-            <h3 className="text-sm font-black uppercase tracking-widest text-emerald-600 flex items-center gap-2">
-              <Heart className="w-4 h-4" /> Medical History
+            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500/60 flex items-center gap-3">
+              <Heart className="w-3.5 h-3.5" /> 03. Medical History
             </h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               {conditionsList.map(cond => (
                 <button
                   key={cond}
                   type="button"
                   onClick={() => toggleCondition(cond)}
-                  className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border ${
+                  className={`px-4 py-2.5 rounded-xl text-[10px] font-black transition-all border uppercase tracking-widest ${
                     formData.conditions.includes(cond)
-                      ? 'bg-emerald-50 border-emerald-500 text-emerald-700'
-                      : 'bg-white border-gray-100 text-gray-400 hover:bg-gray-50'
+                      ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400'
+                      : 'bg-white/5 border-white/5 text-white/30 hover:bg-white/10'
                   }`}
                 >
                   {cond}
@@ -152,13 +142,13 @@ const HealthFormPage = () => {
 
           <button
             type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-5 rounded-[2rem] transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-3 text-lg group"
+            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-6 rounded-[2rem] transition-all shadow-2xl shadow-emerald-500/40 flex items-center justify-center gap-3 text-lg group active:scale-[0.98]"
           >
-            Run AI Diagnostic
-            <Activity className="w-5 h-5 group-hover:animate-pulse" />
+            Synthesize Diagnostics
+            <Zap className="w-5 h-5 group-hover:animate-pulse" />
           </button>
         </form>
-      </FormCard>
+      </div>
     </div>
   );
 };
