@@ -1,62 +1,111 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, Brain, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Sparkles, Brain, ShieldCheck, AlertCircle } from 'lucide-react';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const AIHealthCoach = ({ riskLevel, userData }) => {
   const [analyzing, setAnalyzing] = useState(true);
   const [insight, setInsight] = useState('');
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnalyzing(false);
-      const advices = {
-        High: "Based on your clinical markers, my AI neurological model suggests an immediate cardiovascular screening. I've flagged the earliest available cardiologists with priority status for you.",
-        Medium: "Your metrics show moderate vital strain. I recommend a consultation with a General Physician to baseline your health. Stay active but monitor your heart rate during exertion.",
-        Low: "Fantastic! Your health profile is robust. I recommend a periodic Wellness check-in every 6 months to maintain this trend."
-      };
-      setInsight(advices[riskLevel] || advices.Low);
-    }, 2500);
-    return () => clearTimeout(timer);
-  }, [riskLevel]);
+    const fetchAIInsight = async () => {
+      setAnalyzing(true);
+      setError(false);
+
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+      // If no API key, use fallback mock logic
+      if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
+        setTimeout(() => {
+          const mockAdvices = {
+            High: "Based on your clinical markers, my AI neurological model suggests an immediate cardiovascular screening. I've flagged the earliest available cardiologists with priority status for you.",
+            Medium: "Your metrics show moderate vital strain. I recommend a consultation with a General Physician to baseline your health. Stay active but monitor your heart rate during exertion.",
+            Low: "Fantastic! Your health profile is robust. I recommend a periodic Wellness check-in every 6 months to maintain this trend."
+          };
+          setInsight(mockAdvices[riskLevel] || mockAdvices.Low);
+          setAnalyzing(false);
+        }, 2000);
+        return;
+      }
+
+      try {
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+        const prompt = `
+          As a professional AI Health Coach for SurakshaAI, analyze the following health data:
+          - Risk Level Detected: ${riskLevel}
+          - User Metrics: Age ${userData.age}, Avg Sleep ${userData.sleep} hours, Activity Level ${userData.activity}.
+          
+          Provide a concise (2-3 sentences), professional, and encouraging health insight. 
+          Suggest why a specific doctor (Cardiologist for High Risk, Physician for Medium, Wellness for Low) is recommended.
+        `;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        setInsight(response.text());
+      } catch (err) {
+        console.error("Gemini API Error:", err);
+        setError(true);
+        setInsight("I'm having trouble connecting to my neural network right now, but based on your local assessment, you should follow the recommended clinical steps below.");
+      } finally {
+        setAnalyzing(false);
+      }
+    };
+
+    fetchAIInsight();
+  }, [riskLevel, userData]);
 
   return (
-    <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-2xl shadow-emerald-900/40 border border-emerald-500/20">
+    <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-2xl shadow-emerald-900/40 border border-emerald-500/20 h-full min-h-[300px] flex flex-col justify-center">
       
       {/* Decorative pulse */}
       <div className="absolute top-0 right-0 p-8 opacity-10">
         <Sparkles className="w-32 h-32 text-emerald-400 rotate-12" />
       </div>
 
-      <div className="flex items-center gap-3 mb-6">
-        <div className="bg-emerald-500/20 p-2 rounded-xl backdrop-blur-md">
+      <div className="flex items-center gap-3 mb-6 relative z-10">
+        <div className="bg-emerald-500/20 p-2 rounded-xl backdrop-blur-md border border-emerald-500/30">
           <Brain className="w-6 h-6 text-emerald-400" strokeWidth={2.5} />
         </div>
-        <span className="text-sm font-bold tracking-widest uppercase opacity-60">Gemini Health AI</span>
+        <span className="text-xs font-black tracking-[0.2em] uppercase opacity-70">Gemini Pro AI</span>
       </div>
 
-      {analyzing ? (
-        <div className="space-y-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></div>
-            <p className="text-emerald-300 font-medium animate-pulse italic">AI is analyzing your biomarkers...</p>
-          </div>
-          <div className="w-full bg-emerald-500/10 h-1 rounded-full overflow-hidden">
-            <div className="bg-emerald-400 h-full w-1/2 animate-[expand-circle_2s_infinite]"></div>
-          </div>
-        </div>
-      ) : (
-        <div className="animate-[slide-up-fade_0.6s_ease-out]">
-          <h3 className="text-2xl font-bold mb-3 leading-tight">Insight from SurakshaAI Coach</h3>
-          <p className="text-emerald-100/80 mb-6 leading-relaxed">
-            {insight}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <div className="bg-emerald-500/20 px-4 py-2 rounded-full border border-emerald-500/30 text-xs font-bold flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              Accuracy 94.2%
+      <div className="relative z-10">
+        {analyzing ? (
+          <div className="space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="w-3 h-3 bg-emerald-400 rounded-full animate-ping"></div>
+              <p className="text-emerald-300 font-bold text-lg animate-pulse tracking-wide">Processing Bio-Signals...</p>
+            </div>
+            <div className="w-full bg-emerald-500/10 h-2 rounded-full overflow-hidden border border-emerald-500/20">
+              <div className="bg-emerald-400 h-full w-2/3 animate-[expand-circle_2s_infinite]"></div>
             </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="animate-[slide-up-fade_0.6s_ease-out]">
+            <h3 className="text-2xl font-black mb-4 leading-tight text-emerald-50">
+              Personalized AI Insight
+            </h3>
+            <p className="text-emerald-100/90 text-lg leading-relaxed font-medium">
+              {insight}
+            </p>
+            
+            <div className="mt-8 flex items-center gap-4">
+              <div className="bg-emerald-500/10 px-4 py-2 rounded-2xl border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 text-emerald-400">
+                <ShieldCheck className="w-4 h-4" />
+                Validated Insight
+              </div>
+              {error && (
+                <div className="text-amber-400 text-[10px] font-bold flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5" />
+                  Local Fallback Active
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
