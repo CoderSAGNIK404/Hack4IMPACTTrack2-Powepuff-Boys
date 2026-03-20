@@ -1,0 +1,83 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Activity, Plus, Mail, Lock } from 'lucide-react';
+
+const LoginPage = () => {
+  const [isExpanding, setIsExpanding] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setIsExpanding(true);
+    // Wait for the expansion animation to finish before navigating to the home page
+    setTimeout(() => {
+      navigate('/home');
+    }, 1400); 
+  };
+
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-[#070a0d]">
+      
+      {/* Background decorations */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.05),transparent_70%)] animate-[fade-in-modal_1s_ease-out]"></div>
+      
+      <div className={`relative z-10 w-full max-w-md p-8 bg-white/5 backdrop-blur-xl rounded-[2rem] shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-white/10 transition-all duration-1000 animate-[fade-in-modal_0.8s_ease-out] ${isExpanding ? 'opacity-0 scale-95' : 'opacity-100'}`}>
+        
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-4 border border-emerald-500/20 shadow-inner">
+            <Activity className="w-8 h-8 text-emerald-400" strokeWidth={2.5} />
+          </div>
+          <h2 className="text-3xl font-bold text-white">Welcome Back</h2>
+          <p className="text-gray-400 mt-2 text-center text-sm">Secure access to your health portal</p>
+        </div>
+
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1 ml-1">Email Address</label>
+            <div className="relative">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <input 
+                type="email" 
+                required
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder:text-gray-600 text-white"
+                placeholder="you@example.com"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1 ml-1">Password</label>
+            <div className="relative">
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <input 
+                type="password" 
+                required
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder:text-gray-600 text-white"
+                placeholder="••••••••"
+              />
+            </div>
+          </div>
+
+          <div className="pt-6 flex justify-center relative">
+            <button 
+              type="submit"
+              className="group relative flex items-center justify-center w-16 h-16 bg-emerald-500 text-white rounded-full shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:scale-110 active:scale-95 transition-all outline-none"
+              title="Login and Enter"
+            >
+              <Plus className="w-8 h-8 group-hover:rotate-90 transition-transform duration-500" strokeWidth={3} />
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Expanding Transition Layer */}
+      {isExpanding && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none animate-[fade-in-modal_0.3s_ease-out]">
+          <div className="w-4 h-4 bg-emerald-500 rounded-full animate-[expand-circle_1.5s_ease-in-out_forwards] flex items-center justify-center shadow-2xl"></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LoginPage;
