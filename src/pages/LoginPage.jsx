@@ -5,11 +5,23 @@ import { Activity, Plus, Mail, Lock, User } from 'lucide-react';
 const LoginPage = () => {
   const [isExpanding, setIsExpanding] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsExpanding(true);
+    
+    // Store user data in "Local Biometric Database"
+    if (name) {
+      localStorage.setItem('suraksha_user_name', name);
+    } else if (!isSignUp) {
+      // For Sign In, if name is not set, try to keep existing or default to "User"
+      if (!localStorage.getItem('suraksha_user_name')) {
+        localStorage.setItem('suraksha_user_name', 'Patient');
+      }
+    }
+
     // Wait for the expansion animation to finish before navigating to the home page
     setTimeout(() => {
       navigate('/home');
@@ -45,6 +57,8 @@ const LoginPage = () => {
                 <input 
                   type="text" 
                   required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder:text-gray-600 text-white"
                   placeholder="John Doe"
                 />

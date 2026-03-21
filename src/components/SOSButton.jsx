@@ -33,8 +33,8 @@ const SOSButton = () => {
           <div className="animate-ambulance text-white drop-shadow-2xl flex items-center gap-4">
             <Ambulance className="w-24 h-24 md:w-32 md:h-32" />
             {/* Flashing siren effect */}
-            <div className="w-12 h-12 rounded-full bg-white animate-[pulse_0.2s_infinite] blur-xl absolute top-0 right-10"></div>
-            <div className="w-12 h-12 rounded-full bg-blue-300 animate-[pulse_0.25s_infinite_delay-100ms] blur-xl absolute top-0 left-10"></div>
+            <div className="w-12 h-12 rounded-full bg-white animate-[custom-pulse_0.2s_infinite] blur-xl absolute top-0 right-10"></div>
+            <div className="w-12 h-12 rounded-full bg-blue-300 animate-[custom-pulse_0.25s_infinite] blur-xl absolute top-0 left-10"></div>
           </div>
         </div>
       )}
@@ -49,7 +49,7 @@ const SOSButton = () => {
     <>
       <button
         onClick={handleSOSClick}
-        className="flex items-center justify-center gap-2 bg-danger text-white rounded-full px-5 py-2 font-bold text-sm shadow-[0_0_15px_rgba(239,68,68,0.5)] hover:bg-red-600 transition-all hover:scale-105 active:scale-95 animate-[pulse_1.5s_ease-in-out_infinite]"
+        className="flex items-center justify-center gap-2 bg-red-600 text-white rounded-full px-5 py-2 font-bold text-sm shadow-[0_0_15px_rgba(239,68,68,0.5)] hover:bg-red-700 transition-all hover:scale-105 active:scale-95 animate-[custom-pulse_1.5s_infinite]"
         aria-label="Emergency SOS"
       >
         <Siren className="w-6 h-6 animate-pulse" />

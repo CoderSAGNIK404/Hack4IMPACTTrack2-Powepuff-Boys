@@ -4,24 +4,23 @@
 @theme {
   --color-primary: #10b981;
   --color-secondary: #059669;
-  --color-background: #f0fdf4;
-  --color-card: #ffffff;
-  --color-text: #064e3b;
-  --color-muted: #64748b;
+  --color-background: #000000;
+  --color-card: #0a0a0a;
+  --color-text: #f8fafc;
+  --color-muted: #94a3b8;
   --color-danger: #ef4444;
   --font-sans: 'Inter', sans-serif;
-  --animate-pulse: pulse 1.5s ease-in-out infinite;
+}
 
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-  }
+@keyframes custom-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
 }
 
 @layer base {
   body {
-    background-color: var(--color-background);
-    color: var(--color-text);
+    background-color: black;
+    color: #f8fafc;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
@@ -29,11 +28,11 @@
 
 @layer components {
   .glass-card {
-    background-color: rgb(255 255 255 / 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgb(255 255 255 / 0.2);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    border-radius: 1rem;
+    background-color: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+    border-radius: 2rem;
   }
 }
 
@@ -58,9 +57,9 @@
   100% { transform: scale(100); opacity: 1; }
 }
 
-@keyframes spin-fade {
-  0% { transform: rotate(0deg) scale(0.5); opacity: 0; }
-  100% { transform: rotate(360deg) scale(1.1); opacity: 1; }
+@keyframes dna-fade-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes slide-up-fade {

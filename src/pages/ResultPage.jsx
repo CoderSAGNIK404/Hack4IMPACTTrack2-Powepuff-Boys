@@ -119,7 +119,7 @@ const ResultPage = () => {
   const activeConfig = config[riskLevel];
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center py-12 px-4 space-y-12 max-w-76 mx-auto bg-transparent">
+    <div className="min-h-screen w-full flex flex-col items-center py-12 px-4 space-y-12 max-w-7xl mx-auto bg-transparent">
       
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         

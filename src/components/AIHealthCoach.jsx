@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, Brain, ShieldCheck, AlertCircle } from 'lucide-react';
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 
 const AIHealthCoach = ({ riskLevel, userData }) => {
   const [analyzing, setAnalyzing] = useState(true);
@@ -12,10 +12,10 @@ const AIHealthCoach = ({ riskLevel, userData }) => {
       setAnalyzing(true);
       setError(false);
 
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      const apiKey = import.meta.env.VITE_GROQ_API_KEY;
 
       // If no API key, use fallback mock logic
-      if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
+      if (!apiKey) {
         setTimeout(() => {
           const mockAdvices = {
             High: "Based on your clinical markers, my AI neurological model suggests an immediate cardiovascular screening. I've flagged the earliest available cardiologists with priority status for you.",
@@ -29,27 +29,37 @@ const AIHealthCoach = ({ riskLevel, userData }) => {
       }
 
       try {
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const openai = new OpenAI({
+          apiKey: apiKey,
+          baseURL: "https://api.groq.com/openai/v1",
+          dangerouslyAllowBrowser: true
+        });
 
-        const prompt = `
-          As a professional AI Health Coach for SurakshaAI, provide a comprehensive clinical analysis for the following patient profile:
+        const systemPrompt = "You are a professional AI Health Coach for SurakshaAI.";
+        const userPrompt = `
+          Provide a comprehensive clinical analysis for the following patient profile:
           - Risk Level: ${riskLevel}
           - Biometrics: Gender ${userData.gender}, Age ${userData.age}, Height ${userData.height}cm, Weight ${userData.weight}kg.
           - Medical History: ${userData.conditions.join(', ') || 'None reported'}.
           - Lifestyle: Sleep ${userData.sleep}h, Activity ${userData.activity}, Stress ${userData.stress}, Alcohol ${userData.alcohol}, Smoking ${userData.smoking}.
           
           Provide a professional 3-sentence analysis. 
-          1. Evaluate the primary risk factor (e.g., BMI, chronic condition, or lifestyle).
-          2. Explain why a ${riskLevel === 'High' ? 'Cardiologist' : riskLevel === 'Medium' ? 'General Physician' : 'Wellness Expert'} is the recommended next step.
+          1. Evaluate the primary risk factor (BMI, chronic condition, or lifestyle).
+          2. Explain why a ${riskLevel === 'High' ? 'Cardiologist' : riskLevel === 'Medium' ? 'General Physician' : 'Wellness Expert'} is recommended.
           3. Offer one specific, high-impact lifestyle change.
         `;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        setInsight(response.text());
+        const completion = await openai.chat.completions.create({
+          model: "llama-3.1-8b-instant",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt }
+          ],
+        });
+
+        setInsight(completion.choices[0].message.content);
       } catch (err) {
-        console.error("Gemini API Error:", err);
+        console.error("Groq API Error:", err);
         setError(true);
         setInsight("I'm having trouble connecting to my neural network right now, but based on your local assessment, you should follow the recommended clinical steps below.");
       } finally {
